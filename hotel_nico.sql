@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Creato il: Gen 13, 2021 alle 16:10
+-- Creato il: Gen 13, 2021 alle 17:52
 -- Versione del server: 5.7.24
 -- Versione PHP: 7.4.1
 
@@ -47,7 +47,9 @@ CREATE TABLE `clients` (
 CREATE TABLE `reservations` (
   `reservation_id` int(11) NOT NULL,
   `data_start_reservation` date NOT NULL,
-  `data_end_reservation` date NOT NULL
+  `data_end_reservation` date NOT NULL,
+  `room_id` int(11) DEFAULT NULL,
+  `client_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -76,7 +78,9 @@ ALTER TABLE `clients`
 -- Indici per le tabelle `reservations`
 --
 ALTER TABLE `reservations`
-  ADD PRIMARY KEY (`reservation_id`);
+  ADD PRIMARY KEY (`reservation_id`),
+  ADD KEY `fk_room_id` (`room_id`),
+  ADD KEY `fk_client_id` (`client_id`);
 
 --
 -- Indici per le tabelle `rooms`
@@ -111,16 +115,11 @@ ALTER TABLE `rooms`
 --
 
 --
--- Limiti per la tabella `clients`
+-- Limiti per la tabella `reservations`
 --
-ALTER TABLE `clients`
-  ADD CONSTRAINT `fk_client_id` FOREIGN KEY (`client_id`) REFERENCES `reservations` (`reservation_id`);
-
---
--- Limiti per la tabella `rooms`
---
-ALTER TABLE `rooms`
-  ADD CONSTRAINT `fk_room_id` FOREIGN KEY (`room_id`) REFERENCES `reservations` (`reservation_id`);
+ALTER TABLE `reservations`
+  ADD CONSTRAINT `fk_client_id` FOREIGN KEY (`client_id`) REFERENCES `clients` (`client_id`),
+  ADD CONSTRAINT `fk_room_id` FOREIGN KEY (`room_id`) REFERENCES `rooms` (`room_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
