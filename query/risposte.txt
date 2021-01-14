@@ -1,0 +1,20 @@
+--- parte 1 --- 
+// seleziona tutti gli ospiti identificati con CI.
+--> SELECT * 
+FROM ospiti
+WHERE document_type = 'ci';
+
+//seleziona tutti gli ospiti nati dopo il 1988.
+--> SELECT * 
+FROM ospiti 
+WHERE date_of_birth > '1988-12-31';
+
+//seleziona gli ospiti con più di anni 20.
+--> SELECT *
+FROM ospiti
+WHERE TIMESTAMPDIFF(year, date_of_birth, CURRENT_DATE) > 20;
+
+// seleziona tutti gli ospiti il cui nome inizia con D.
+--> SELECT *
+FROM ospiti 
+WHERE name LIKE 'D%';
